@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>IndieCoder Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <style>
+    :root {
+      --bg-color: #0d0d0d;
+      --accent: #ff6600;
+      --text: #f0f0f0;
+      --card: #1a1a1a;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text);
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      min-height: 100vh;
+    }
+
+    aside {
+      width: 250px;
+      background-color: #121212;
+      padding: 20px;
+      border-right: 1px solid #2a2a2a;
+      display: flex;
+      flex-direction: column;
+    }
+
+    aside h2 {
+      color: var(--accent);
+      margin-bottom: 20px;
+    }
+
+    aside a {
+      color: var(--text);
+      text-decoration: none;
+      padding: 10px;
+      border-radius: 6px;
+      transition: background 0.2s;
+    }
+
+    aside a:hover {
+      background-color: var(--accent);
+      color: black;
+    }
+
+    main {
+      flex: 1;
+      padding: 40px;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .header h1 {
+      font-size: 28px;
+    }
+
+    .logout {
+      padding: 8px 16px;
+      background-color: transparent;
+      border: 2px solid var(--accent);
+      border-radius: 6px;
+      color: var(--accent);
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .logout:hover {
+      background-color: var(--accent);
+      color: black;
+    }
+
+    .card-container {
+      margin-top: 40px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background-color: var(--card);
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(255, 102, 0, 0.1);
+      transition: 0.2s;
+    }
+
+    .card:hover {
+      box-shadow: 0 0 20px rgba(255, 102, 0, 0.3);
+      transform: translateY(-3px);
+    }
+
+    .card h3 {
+      margin-bottom: 10px;
+      color: var(--accent);
+    }
+
+    .card p {
+      font-size: 14px;
+      margin-bottom: 15px;
+    }
+
+    .card button {
+      padding: 8px 14px;
+      background-color: var(--accent);
+      color: black;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      box-shadow: #ff6600;
+    }
+
+    @media (max-width: 768px) {
+      aside {
+        display: none;
+      }
+
+      main {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <aside>
+    <h2>IndieCoder</h2>
+    <a href="#">Dashboard</a>
+    <a href="#">Start Learning</a>
+    <a href="#">Code Editor</a>
+    <a href="#">AI Assistant</a>
+    <a href="#">CSS Tools</a>
+  </aside>
+
+  <main>
+    <div class="header">
+      <h1>Welcome to IndieCoder</h1>
+      <button class="logout" onclick="logout()">Logout</button>
+    </div>
+
+    <div style="margin-top: 10px; font-size: 14px;">
+      Logged in as: <span id="userEmail" style="color: var(--accent); font-weight: bold;"></span>
+    </div>
+
+    <div class="card-container">
+      <div class="card">
+        <h3>Start Learning</h3>
+        <p>Explore step-by-step web development lessons.</p>
+        <button onclick="location.href='learn.html'">Start</button>
+      </div>
+
+      <div class="card">
+        <h3>Code Editor</h3>
+        <p>Write and test HTML, CSS, and JS directly in your browser.</p>
+        <button onclick="location.href='editor.html'">Open Editor</button>
+      </div>
+
+      <div class="card">
+        <h3>AI Assistant</h3>
+        <p>Get instant help with your code and concepts using AI.</p>
+        <button onclick="location.href='learn.html'">Ask AI</button>
+      </div>
+
+      <div class="card">
+        <h3>CSS Tools</h3>
+        <p>Use tools like color pickers, gradients, shadows and more.</p>
+        <button onclick="location.href='learn.html'">Use Tools</button>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (!user) {
+      window.location.href = "auth.html"; // redirect if not logged in
+    } else {
+      document.getElementById("userEmail").innerText = user.email;
+    }
+
+    function logout() {
+      localStorage.removeItem("user");
+      window.location.href = "auth.html";
+    }
+  </script>
+</body>
+</html>

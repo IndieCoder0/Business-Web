@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>IndieCoder Code Editor</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    :root {
+      --bg: #0d0d0d;
+      --accent: #ff6600;
+      --text: #f0f0f0;
+      --editor-bg: #1a1a1a;
+      --preview-bg: #ffffff;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    aside {
+      width: 250px;
+      background-color: #121212;
+      padding: 20px;
+      border-right: 1px solid #2a2a2a;
+      display: flex;
+      flex-direction: column;
+    }
+
+    aside h2 {
+      color: var(--accent);
+      margin-bottom: 20px;
+    }
+
+    aside a {
+      color: var(--text);
+      text-decoration: none;
+      padding: 10px;
+      border-radius: 6px;
+      transition: background 0.2s;
+    }
+
+    aside a:hover {
+      background-color: var(--accent);
+      color: black;
+    }
+
+    .editor-container {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .topbar {
+      background: #1a1a1a;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 20px;
+      border-bottom: 1px solid #2c2c2c;
+    }
+
+    .topbar h1 {
+      font-size: 20px;
+      color: var(--accent);
+    }
+
+    .main {
+      display: flex;
+      flex: 1;
+    }
+
+    .code-editor {
+      flex: 2;
+      background: var(--editor-bg);
+      display: flex;
+      flex-direction: column;
+      padding: 10px;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .tabs button {
+      background: #2a2a2a;
+      color: var(--text);
+      border: none;
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .tabs button.active {
+      background: var(--accent);
+      color: black;
+    }
+
+    textarea {
+      flex: 1;
+      width: 100%;
+      background: #121212;
+      color: #f0f0f0;
+      border: none;
+      resize: none;
+      padding: 10px;
+      font-family: monospace;
+      font-size: 14px;
+    }
+
+    .preview {
+      flex: 2;
+      border-left: 1px solid #2a2a2a;
+      background: var(--preview-bg);
+    }
+
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+  </style>
+</head>
+<body>
+  <aside>
+    <h2>IndieCoder</h2>
+    <a href="index.html">Dashboard</a>
+    <a href="learn.html">Start Learning</a>
+    <a href="editor.html">Code Editor</a>
+    <a href="ai.html">AI Assistant</a>
+    <a href="tools.html">CSS Tools</a>
+  </aside>
+
+  <div class="editor-container">
+    <div class="topbar">
+      <h1>Web Code Editor</h1>
+    </div>
+    <div class="main">
+      <div class="code-editor">
+        <div class="tabs">
+          <button onclick="switchTab('html')" class="active">index.html</button>
+          <button onclick="switchTab('css')">style.css</button>
+          <button onclick="switchTab('js')">script.js</button>
+        </div>
+        <textarea id="html" placeholder="Write HTML here..."><!DOCTYPE html>
+<html>
+  <head>
+    <title>Live Preview</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <h1>Hello IndieCoder!</h1>
+    <script src="script.js"></script>
+  </body>
+</html></textarea>
+        <textarea id="css" style="display:none" placeholder="Write CSS here...">
+body {
+  background: #fff;
+  color: #000;
+  font-family: sans-serif;
+  text-align: center;
+  padding-top: 50px;
+}
+</textarea>
+        <textarea id="js" style="display:none" placeholder="Write JavaScript here...">
+console.log("Welcome to IndieCoder!");
+</textarea>
+      </div>
+      <div class="preview">
+        <iframe id="preview"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <!-- Chatbase Bubble Button -->
+  <div id="chat-toggle" onclick="toggleChat()" style="
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    background: #ff6600;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    cursor: pointer;
+    z-index: 1000;
+  ">
+    💬
+  </div>
+
+  <!-- Chatbase Popup -->
+  <div id="chat-popup" style="
+    display: none;
+    position: fixed;
+    bottom: 90px;
+    right: 20px;
+    width: 300px;
+    height: 400px;
+    background: #1a1a1a;
+    border-radius: 10px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.5);
+    z-index: 999;
+    overflow: hidden;
+    border: 2px solid #ff6600;
+  ">
+    <div style="background: #121212; padding: 10px; color: #fff; text-align: center; border-bottom: 1px solid #ff6600;">
+      IndieCoder Assistant
+    </div>
+    <iframe src="https://www.chatbase.co/chatbot-iframe/XsCaKG1bt3Ga3i6jLK8Jg" 
+            style="width:100%; height:100%; border:none;" 
+            allow="clipboard-write">
+    </iframe>
+  </div>
+
+  <script>
+    const html = document.getElementById("html");
+    const css = document.getElementById("css");
+    const js = document.getElementById("js");
+    const preview = document.getElementById("preview");
+
+    function updatePreview() {
+      const code = `
+        <style>${css.value}</style>
+        ${html.value}
+        <script>${js.value}<\/script>
+      `;
+      preview.srcdoc = code;
+    }
+
+    html.addEventListener("input", updatePreview);
+    css.addEventListener("input", updatePreview);
+    js.addEventListener("input", updatePreview);
+    updatePreview();
+
+    function switchTab(tab) {
+      html.style.display = "none";
+      css.style.display = "none";
+      js.style.display = "none";
+
+      html.previousElementSibling?.classList.remove("active");
+      css.previousElementSibling?.classList.remove("active");
+      js.previousElementSibling?.classList.remove("active");
+
+      document.getElementById(tab).style.display = "block";
+      document.querySelector(`.tabs button[onclick*="${tab}"]`).classList.add("active");
+    }
+
+    function toggleChat() {
+      const popup = document.getElementById("chat-popup");
+      popup.style.display = popup.style.display === "none" ? "block" : "none";
+    }
+  </script>
+</body>
+</html>

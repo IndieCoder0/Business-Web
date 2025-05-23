@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Learn Web Development | IndieCoder</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <style>
+    :root {
+      --bg-color: #0d0d0d;
+      --accent: #ff6600;
+      --text: #f0f0f0;
+      --card: #1a1a1a;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      display: flex;
+      min-height: 100vh;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text);
+    }
+
+    aside {
+      width: 250px;
+      background-color: #121212;
+      padding: 20px;
+      border-right: 1px solid #2a2a2a;
+      display: flex;
+      flex-direction: column;
+    }
+
+    aside h2 {
+      color: var(--accent);
+      margin-bottom: 20px;
+    }
+
+    aside a {
+      color: var(--text);
+      text-decoration: none;
+      padding: 10px;
+      border-radius: 6px;
+      transition: background 0.2s;
+    }
+
+    aside a:hover {
+      background-color: var(--accent);
+      color: black;
+    }
+
+    main {
+      flex: 1;
+      padding: 40px;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .header h1 {
+      font-size: 28px;
+    }
+
+    .grid {
+      margin-top: 30px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background-color: var(--card);
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 8px rgba(255, 102, 0, 0.1);
+      transition: 0.2s ease;
+    }
+
+    .card:hover {
+      box-shadow: 0 0 16px rgba(255, 102, 0, 0.3);
+      transform: translateY(-2px);
+    }
+
+    .card h3 {
+      margin-bottom: 10px;
+      color: var(--accent);
+    }
+
+    .card p {
+      font-size: 14px;
+      margin-bottom: 12px;
+    }
+
+    .card button {
+      background-color: var(--accent);
+      color: black;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .logout {
+      padding: 6px 14px;
+      border: 2px solid var(--accent);
+      border-radius: 6px;
+      color: var(--accent);
+      background: transparent;
+      cursor: pointer;
+    }
+
+    .logout:hover {
+      background-color: var(--accent);
+      color: black;
+    }
+
+    @media (max-width: 768px) {
+      aside {
+        display: none;
+      }
+
+      main {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <aside>
+    <h2>IndieCoder</h2>
+    <a href="index.html">Dashboard</a>
+    <a href="learn.html">Start Learning</a>
+    <a href="editor.html">Code Editor</a>
+    <a href="ai.html">AI Assistant</a>
+    <a href="tools.html">CSS Tools</a>
+  </aside>
+
+  <main>
+    <div class="header">
+      <h1>Start Learning Web Development</h1>
+      <button class="logout" onclick="logout()">Logout</button>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <h3>HTML Basics</h3>
+        <p>Start with the fundamentals of HTML: tags, elements, structure.</p>
+        <button onclick="alert('Lesson: HTML Basics')">Start Lesson</button>
+      </div>
+
+      <div class="card">
+        <h3>CSS Essentials</h3>
+        <p>Learn styling with CSS, selectors, properties, and layouts.</p>
+        <button onclick="alert('Lesson: CSS Essentials')">Start Lesson</button>
+      </div>
+
+      <div class="card">
+        <h3>JavaScript 101</h3>
+        <p>Dive into logic, variables, functions, and interactivity.</p>
+        <button onclick="alert('Lesson: JavaScript 101')">Start Lesson</button>
+      </div>
+
+      <div class="card">
+        <h3>Mini Projects</h3>
+        <p>Apply your skills in small projects like a calculator or todo list.</p>
+        <button onclick="alert('Lesson: Mini Projects')">Start Lesson</button>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (!user) {
+      window.location.href = "auth.html";
+    }
+
+    function logout() {
+      localStorage.removeItem("user");
+      window.location.href = "auth.html";
+    }
+  </script>
+</body>
+</html>

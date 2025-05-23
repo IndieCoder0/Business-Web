@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>IndieCoder - Login</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #0d0d0d;
+      color: #ff6600;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+    }
+
+    .container {
+      background: #1a1a1a;
+      padding: 20px 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #ff6600;
+      width: 300px;
+      text-align: center;
+    }
+
+    input, button {
+      padding: 10px;
+      margin: 5px;
+      width: 90%;
+      border-radius: 5px;
+      border: none;
+    }
+
+    input {
+      background: #333;
+      color: white;
+    }
+
+    button {
+      background-color: #ff6600;
+      color: white;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div id="auth" class="container">
+    <h1>Login / Sign Up</h1>
+    <input type="email" id="email" placeholder="Email" />
+    <input type="password" id="password" placeholder="Password" />
+    <button onclick="signUp()">Sign Up</button>
+    <button onclick="emailLogin()">Login</button>
+    <hr />
+    <button onclick="googleLogin()">Sign in with Google</button>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import {
+      getAuth,
+      signInWithPopup,
+      signOut,
+      GoogleAuthProvider,
+      createUserWithEmailAndPassword,
+      signInWithEmailAndPassword
+    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAnwN0IY7r92CYnnU0OM9RItHhpWPYe-1k",
+      authDomain: "indiecoder-c3260.firebaseapp.com",
+      projectId: "indiecoder-c3260",
+      appId: "1:385674223149:web:0bd336bea826e077d262a4"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const provider = new GoogleAuthProvider();
+
+    function saveUserAndRedirect(user) {
+      localStorage.setItem("user", JSON.stringify({
+        email: user.email,
+        displayName: user.displayName || "",
+        photoURL: user.photoURL || ""
+      }));
+      window.location.href = "index.html";
+    }
+
+    window.googleLogin = function () {
+      signInWithPopup(auth, provider)
+        .then(result => saveUserAndRedirect(result.user))
+        .catch(error => alert("Google Sign-In Failed: " + error.message));
+    };
+
+    window.signUp = function () {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      createUserWithEmailAndPassword(auth, email, password)
+        .then(result => saveUserAndRedirect(result.user))
+        .catch(error => alert("Signup Failed: " + error.message));
+    };
+
+    window.emailLogin = function () {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      signInWithEmailAndPassword(auth, email, password)
+        .then(result => saveUserAndRedirect(result.user))
+        .catch(error => alert("Login Failed: " + error.message));
+    };
+  </script>
+</body>
+</html>
